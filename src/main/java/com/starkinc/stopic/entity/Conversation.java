@@ -2,11 +2,13 @@ package com.starkinc.stopic.entity;
 
 import java.util.List;
 
+import org.bson.types.ObjectId;
+
 public class Conversation {
 	
 	private String id;
-	private String topicRef;
-	private List<Message> messageList;
+	private ObjectId topicRef;
+	private List<Message> messages;
 	public String getId() {
 		return id;
 	}
@@ -14,16 +16,16 @@ public class Conversation {
 		this.id = id;
 	}
 	public String getTopicRef() {
-		return topicRef;
+		return topicRef.toHexString();
 	}
-	public void setTopicRef(String topicRef) {
+	public void setTopicRef(ObjectId topicRef) {
 		this.topicRef = topicRef;
 	}
 	public List<Message> getMessageList() {
-		return messageList;
+		return messages;
 	}
 	public void setMessageList(List<Message> messageList) {
-		this.messageList = messageList;
+		this.messages = messageList;
 	}
 	
 	@Override
@@ -34,7 +36,7 @@ public class Conversation {
 		builder.append(", topicRef=");
 		builder.append(topicRef);
 		builder.append(", messageList=");
-		builder.append(messageList);
+		builder.append(messages);
 		builder.append("]");
 		return builder.toString();
 	}

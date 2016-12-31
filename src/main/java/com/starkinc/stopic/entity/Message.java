@@ -6,7 +6,7 @@ public class Message {
 	
 	private String name;
 	private String message;
-	private Date posted;
+	private Date posted = new Date();
 	public String getName() {
 		return name;
 	}

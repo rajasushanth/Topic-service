@@ -26,17 +26,17 @@ public class ConversationRepositoryImpl implements ConversationCustomRepository 
 				Query query = new Query();
 				ObjectId objectId = new ObjectId(topicRef);
 				query.addCriteria(Criteria.where("topicRef").is(objectId));
-				query.fields().include("messages");
+				query.fields().include("messages").exclude("_id");
 				Update update = new Update();
 				update.addToSet("messages", message);
-				conversationFetched = mongoTemplate.findAndModify(query, update, new FindAndModifyOptions().returnNew(true), Conversation.class);
+				conversationFetched = mongoTemplate.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true), Conversation.class);
 			}
 		}
 		return conversationFetched;
 	}
-	
+
 	@Autowired
-	public void setMongoTemplate(MongoTemplate mongoTemplate) {
+	public ConversationRepositoryImpl(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 
