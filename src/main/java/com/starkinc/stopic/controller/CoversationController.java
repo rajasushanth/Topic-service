@@ -35,7 +35,7 @@ public class CoversationController {
     	if(null != conversation){
     		return ServiceUtil.buildEntity(HttpStatus.FOUND, conversation);
     	}else{
-    		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, Constants.NO_RECORD_FOUND);
+    		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, new Error(HttpStatus.NOT_FOUND, Constants.NO_RECORD_FOUND));
     	}
     }
     
@@ -56,10 +56,10 @@ public class CoversationController {
         	if(null != conversationFetched && null != conversationFetched.getMessageList()){
         		return ServiceUtil.buildEntity(HttpStatus.OK, conversationFetched.getMessageList());
         	}else{
-        		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, Constants.NO_RECORD_FOUND);
+        		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, new Error(HttpStatus.NOT_FOUND, Constants.NO_RECORD_FOUND));
         	}
     	}else{
-    		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, Constants.INVALID_REQUEST);
+    		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, Constants.INVALID_REQUEST));
     	}
     	
     }
