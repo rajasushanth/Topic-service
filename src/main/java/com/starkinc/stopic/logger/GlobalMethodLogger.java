@@ -15,7 +15,9 @@ public class GlobalMethodLogger {
 	@Pointcut("execution(* com.starkinc.stopic.*.*.*(..))")
 	public void includedMethods(){}
 	
-	@Pointcut("! execution(* java.lang.reflect.Proxy+.*(..))")
+	@Pointcut("! execution(* java.lang.reflect.Proxy+.*(..)) "
+		 + "&& ! execution(* com.starkinc.stopic.configuration.JavaConfig.*(..))" 
+		 + "&& ! execution(* com.starkinc.stopic.*.*.set*(..))")
 	public void excludedMethods(){}
 	
 	@Around("includedMethods() && excludedMethods()")

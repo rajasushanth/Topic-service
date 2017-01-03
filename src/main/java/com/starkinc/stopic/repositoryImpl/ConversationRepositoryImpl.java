@@ -1,5 +1,6 @@
 package com.starkinc.stopic.repositoryImpl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
@@ -7,7 +8,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.StringUtils;
 
 import com.starkinc.stopic.entity.Conversation;
 import com.starkinc.stopic.entity.Message;
@@ -21,8 +21,8 @@ public class ConversationRepositoryImpl implements ConversationCustomRepository 
 	public Conversation findAndModiy(Message message, String topicRef) {
 		Conversation conversationFetched = null;
 		if(null != message){
-			if(!StringUtils.isEmpty(message.getName()) && !StringUtils.isEmpty(message.getMessage()) 
-					&& !StringUtils.isEmpty(message.getPosted())){
+			if(StringUtils.isNotBlank(message.getName()) && StringUtils.isNotBlank(message.getMessage()) 
+					&& null != message.getPosted()){
 				Query query = new Query();
 				ObjectId objectId = new ObjectId(topicRef);
 				query.addCriteria(Criteria.where("topicRef").is(objectId));
