@@ -28,7 +28,6 @@ public class GlobalMethodLogger {
 			LOG.info("Enters::"+jp.getSignature());
 			o = jp.proceed();
 			LOG.info("Exits::"+jp.getSignature());
-			return o;
 		}catch (Throwable e) {
 			LOG.info("Exception::"+jp.getSignature());
 		}

@@ -119,3 +119,7 @@
 2017-01-04 01:06:18.149  INFO 13808 --- [http-nio-8080-exec-1] c.s.s.r.TopicRepositoryImpl              : Exits::List com.starkinc.stopic.repository.TopicCustomRepository.findByTopicNameOrUserName(String,String)
 2017-01-04 01:06:18.150  INFO 13808 --- [http-nio-8080-exec-1] c.starkinc.stopic.daoImpl.TopicDAOImpl   : Exits::List com.starkinc.stopic.dao.TopicDAO.search(String,String)
 2017-01-04 01:06:18.151  INFO 13808 --- [http-nio-8080-exec-1] c.s.stopic.controller.TopicController    : Exits::ResponseEntity com.starkinc.stopic.controller.TopicController.findByTopicName(String,String)
+2017-01-04 01:08:55.489  INFO 13808 --- [RMI TCP Connection(10)-192.168.56.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2017-01-04 01:08:55.489  INFO 13808 --- [RMI TCP Connection(10)-192.168.56.1] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3d285d7e: startup date [Wed Jan 04 01:06:05 IST 2017]; root of context hierarchy
+2017-01-04 01:08:55.492  INFO 13808 --- [RMI TCP Connection(10)-192.168.56.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2017-01-04 01:08:55.496  INFO 13808 --- [RMI TCP Connection(10)-192.168.56.1] org.mongodb.driver.connection            : Closed connection [connectionId{localValue:2, serverValue:18}] to localhost:27017 because the pool has been closed.
