@@ -45,7 +45,7 @@ public class UserController {
 	}
 
 	@Autowired
-	public void setUserDAO(UserDAO userDAO) {
+	public UserController(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
 	
