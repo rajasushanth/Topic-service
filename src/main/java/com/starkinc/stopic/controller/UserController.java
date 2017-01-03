@@ -24,7 +24,8 @@ public class UserController {
 	
 	@PostMapping
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user){
-		return ServiceUtil.buildEntity(HttpStatus.CREATED, userDAO.saveOrUpdate(user)) ;
+		User u  = userDAO.saveOrUpdate(user);
+		return ServiceUtil.buildEntity(HttpStatus.CREATED, u) ;
 	}
 	
 	@GetMapping(value="/{id}")
@@ -42,10 +43,12 @@ public class UserController {
 		userDAO.delete(id);
 		return ServiceUtil.buildEntity(HttpStatus.NO_CONTENT, null);
 	}
-	
+
 	@Autowired
-	public UserController(UserDAO userDAO) {
+	public void setUserDAO(UserDAO userDAO) {
 		this.userDAO = userDAO;
 	}
+	
+	
 
 }

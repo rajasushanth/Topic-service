@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.starkinc.stopic.entity.User;
 
+
 public interface UserDAO {
 	
 	User saveOrUpdate(User user);
