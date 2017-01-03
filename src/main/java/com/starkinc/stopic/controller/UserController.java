@@ -24,8 +24,7 @@ public class UserController {
 	
 	@PostMapping
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user){
-		User u  = userDAO.saveOrUpdate(user);
-		return ServiceUtil.buildEntity(HttpStatus.CREATED, u) ;
+		return ServiceUtil.buildEntity(HttpStatus.CREATED, userDAO.saveOrUpdate(user)) ;
 	}
 	
 	@GetMapping(value="/{id}")
