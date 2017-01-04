@@ -8,4 +8,5 @@ public interface ConversationDAO {
 	Conversation findByRefId(String id);
 	Conversation save(String topicRef);
 	Conversation update(String topicRef,Message message);
+	void delete(String id);
 }

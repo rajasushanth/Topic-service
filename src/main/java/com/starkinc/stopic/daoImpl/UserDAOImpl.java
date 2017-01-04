@@ -26,7 +26,6 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public User findOne(String id) {
-		
 		return userRepository.findOne(id);
 	}
 

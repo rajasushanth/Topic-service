@@ -3,9 +3,11 @@ package com.starkinc.stopic.entity;
 import java.util.List;
 
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 
 public class Conversation {
 	
+	@Id
 	private String id;
 	private ObjectId topicRef;
 	private List<Message> messages;

@@ -31,11 +31,16 @@ public class ConversationDAOImpl implements ConversationDAO {
 		return conversationRepository.findAndModiy(message, topicRef);
 	}
 	
+	@Override
+	public void delete(String id) {
+		conversationRepository.delete(id);
+	}
+	
+	
 	@Autowired
 	public ConversationDAOImpl(ConversationRepository conversationRepository) {
 		this.conversationRepository = conversationRepository;
 	}
-	
-	
+
 
 }

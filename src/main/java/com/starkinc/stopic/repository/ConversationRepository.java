@@ -5,6 +5,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import com.starkinc.stopic.entity.Conversation;
 
-public interface ConversationRepository extends MongoRepository<Conversation, Long>, ConversationCustomRepository {
+public interface ConversationRepository extends MongoRepository<Conversation, String>, ConversationCustomRepository {
 	Conversation findByTopicRef(ObjectId topicRef);
 }
