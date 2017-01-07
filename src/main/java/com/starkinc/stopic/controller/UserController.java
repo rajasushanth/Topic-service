@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.dao.UserDAO;
 import com.starkinc.stopic.entity.User;
 import com.starkinc.stopic.util.ServiceUtil;
