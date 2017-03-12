@@ -21,8 +21,8 @@ public class TopicDAOImpl implements TopicDAO {
 	}
 
 	@Override
-	public void delete(String id) {
-		topicRepository.delete(id);
+	public void delete(String topicName) {
+		topicRepository.delete(topicName);
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class TopicDAOImpl implements TopicDAO {
 	}
 
 	@Override
-	public Topic updateMessage(String topicName, Message message) {
+	public List<Message> updateMessage(String topicName, Message message) {
 		return topicRepository.findAndUpdateMessage(topicName, message);
 	}
 

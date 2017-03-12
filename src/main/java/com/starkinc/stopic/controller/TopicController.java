@@ -1,5 +1,6 @@
 package com.starkinc.stopic.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.starkinc.stopic.dao.TopicDAO;
+import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.util.ServiceUtil;
 
@@ -36,6 +38,8 @@ public class TopicController {
 		if (null != topic && StringUtils.isNotBlank(topic.getTopicName())
 				&& StringUtils.isNotBlank(topic.getAuthor())) {
 			if (!topicDAO.isTopicExist(topic.getTopicName())) {
+				topic.setCreated(new Date());
+				topic.setUpdated(new Date());
 				return ServiceUtil.buildEntity(HttpStatus.CREATED, topicDAO.save(topic));
 			} else {
 				return topicAlreadyExist;
@@ -47,7 +51,7 @@ public class TopicController {
 	}
 
 	@RequestMapping("/{topicName}")
-	public ResponseEntity<Object> findById(@PathVariable("topicName") String topicName) {
+	public ResponseEntity<Object> findByTopicName(@PathVariable("topicName") String topicName) {
 		Topic topic = topicDAO.findOne(topicName);
 		if (null != topic) {
 			return ServiceUtil.buildEntity(HttpStatus.FOUND, topic);
@@ -80,9 +84,21 @@ public class TopicController {
 		}
 	}
 
-	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete(@PathVariable("id") String id) {
-		topicDAO.delete(id);
+	@RequestMapping(value = "/{topicName}", method = RequestMethod.PUT)
+	public ResponseEntity<Object> findAndUpdateMessage(@PathVariable("topicName") String topicName,
+			@RequestBody Message message) {
+		if (StringUtils.isNotBlank(topicName) && null != message) {
+			message.setPosted(new Date());
+			return ServiceUtil.buildEntity(HttpStatus.OK, topicDAO.updateMessage(topicName, message));
+		}
+
+		return invalidRequest;
+
+	}
+
+	@RequestMapping(value = "/{topicName}", method = RequestMethod.DELETE)
+	public ResponseEntity<Object> delete(@PathVariable("topicName") String topicName) {
+		topicDAO.delete(topicName);
 		return noContent;
 	}
 

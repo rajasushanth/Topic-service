@@ -9,7 +9,7 @@ public interface TopicDAO {
 
 	Topic save(Topic topic);
 
-	void delete(String id);
+	void delete(String topicName);
 
 	Topic findOne(String topicName);
 
@@ -17,7 +17,7 @@ public interface TopicDAO {
 
 	List<Topic> findAll();
 	
-	Topic updateMessage(String topicName, Message message);
+	List<Message> updateMessage(String topicName, Message message);
 	
 	boolean isTopicExist(String topicName);
 }

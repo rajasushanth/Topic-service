@@ -13,20 +13,24 @@ import org.springframework.data.mongodb.core.query.Update;
 import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicCustomRepository;
+import com.starkinc.stopic.util.ServiceUtil;
 
 public class TopicRepositoryImpl implements TopicCustomRepository {
 
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public Topic findAndUpdateMessage(String topicName, Message message) {
+	public List<Message> findAndUpdateMessage(String topicName, Message message) {
 		Query query = new Query();
 		if (StringUtils.isNotBlank(topicName)) {
 			query.addCriteria(Criteria.where("topicName").regex(topicName));
 		}
 		Update update = new Update();
+		update.currentDate("updated");
 		update.addToSet("messages", message);
-		return mongoTemplate.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true), Topic.class);
+		Topic topic = mongoTemplate.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true),
+				Topic.class);
+		return topic.getMessages();
 	}
 
 	@Override
@@ -34,9 +38,10 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 		Query query = new Query();
 		query.addCriteria(Criteria.where("author").regex(author));
 		query.fields().include("topicName");
-		return mongoTemplate.find(query, String.class);
+		List<Topic> topics = mongoTemplate.find(query, Topic.class);
+		return ServiceUtil.getTopicNames(topics);
 	}
-	
+
 	@Autowired
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
