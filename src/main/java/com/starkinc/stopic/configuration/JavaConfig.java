@@ -31,4 +31,9 @@ public class JavaConfig {
 	public ResponseEntity<Object> responseEntityTS(){
 		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, Constants.TOPIC_SEARCH));
 	}
+	
+	@Bean(name="topicAlreadyExist")
+	public ResponseEntity<Object> responseEntityAE(){
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.ALREADY_EXIST));
+	}
 }

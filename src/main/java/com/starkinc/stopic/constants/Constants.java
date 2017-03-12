@@ -3,12 +3,14 @@ package com.starkinc.stopic.constants;
 public final class Constants {
 
 	public static final String TOPIC_REF = "topicRef";
-	
-	//Error messages
+
+	// Error messages
 	public static final String NO_RECORD_FOUND = "No record found";
 	public static final String TOPIC_SEARCH = "Either topic or Username is mandatory";
 	public static final String INVALID_REQUEST = "Request body is null or missing parameters";
-	private Constants(){
+	public static final String ALREADY_EXIST = "Topic already present";
+	
+	private Constants() {
 	}
 
 }

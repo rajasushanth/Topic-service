@@ -2,13 +2,22 @@ package com.starkinc.stopic.dao;
 
 import java.util.List;
 
+import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 
 public interface TopicDAO {
-	
-	Topic saveOrUpdate(Topic topic);
+
+	Topic save(Topic topic);
+
 	void delete(String id);
-	Topic findOne(String id);
-	List<Topic> search(String topicName, String userName);
+
+	Topic findOne(String topicName);
+
+	List<String> findByAuthor(String author);
+
 	List<Topic> findAll();
+	
+	Topic updateMessage(String topicName, Message message);
+	
+	boolean isTopicExist(String topicName);
 }

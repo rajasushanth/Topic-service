@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.starkinc.stopic.dao.TopicDAO;
+import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicRepository;
 
@@ -15,38 +16,43 @@ public class TopicDAOImpl implements TopicDAO {
 	private TopicRepository topicRepository;
 
 	@Override
-	public Topic saveOrUpdate(Topic topic) {
+	public Topic save(Topic topic) {
 		return topicRepository.save(topic);
 	}
-
 
 	@Override
 	public void delete(String id) {
 		topicRepository.delete(id);
 	}
 
-
 	@Override
-	public Topic findOne(String id) {
-		return topicRepository.findOne(id);
+	public Topic findOne(String topicName) {
+		return topicRepository.findOne(topicName);
 	}
 
-
 	@Override
-	public List<Topic> search(String topicName, String userName) {
-		return topicRepository.findByTopicNameOrUserName(topicName, userName);
+	public List<String> findByAuthor(String author) {
+		return topicRepository.findByAuthorOrderByCreatedDesc(author);
 	}
-
 
 	@Override
 	public List<Topic> findAll() {
 		return topicRepository.findAll();
+	}
+
+	@Override
+	public Topic updateMessage(String topicName, Message message) {
+		return topicRepository.findAndUpdateMessage(topicName, message);
+	}
+
+	@Override
+	public boolean isTopicExist(String topicName) {
+		return topicRepository.exists(topicName);
 	}
 	
 	@Autowired
 	public TopicDAOImpl(TopicRepository topicRepository) {
 		this.topicRepository = topicRepository;
 	}
-
 
 }

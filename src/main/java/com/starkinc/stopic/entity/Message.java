@@ -3,29 +3,35 @@ package com.starkinc.stopic.entity;
 import java.util.Date;
 
 public class Message {
-	
+
 	private String name;
 	private String message;
-	private Date posted = new Date();
+	private Date posted;
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getMessage() {
 		return message;
 	}
+
 	public void setMessage(String message) {
 		this.message = message;
 	}
+
 	public Date getPosted() {
 		return posted;
 	}
+
 	public void setPosted(Date posted) {
 		this.posted = posted;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -38,6 +44,5 @@ public class Message {
 		builder.append("]");
 		return builder.toString();
 	}
-	
-	
+
 }
