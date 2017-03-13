@@ -32,12 +32,12 @@ public class TopicDAOImpl implements TopicDAO {
 
 	@Override
 	public List<String> findByAuthor(String author) {
-		return topicRepository.findByAuthorOrderByCreatedDesc(author);
+		return topicRepository.findAllOrByAuthorOrderByCreatedDesc(author);
 	}
 
 	@Override
-	public List<Topic> findAll() {
-		return topicRepository.findAll();
+	public List<String> findAll() {
+		return topicRepository.findAllOrByAuthorOrderByCreatedDesc(null);
 	}
 
 	@Override

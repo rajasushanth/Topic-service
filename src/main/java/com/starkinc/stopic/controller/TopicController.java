@@ -76,7 +76,7 @@ public class TopicController {
 
 	@RequestMapping
 	public ResponseEntity<Object> findAll() {
-		List<Topic> topicList = topicDAO.findAll();
+		List<String> topicList = topicDAO.findAll();
 		if (null != topicList && topicList.size() > 0) {
 			return ServiceUtil.buildEntity(HttpStatus.FOUND, topicList);
 		} else {

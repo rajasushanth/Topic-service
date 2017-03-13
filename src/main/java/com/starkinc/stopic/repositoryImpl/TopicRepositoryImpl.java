@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -34,10 +37,13 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	}
 
 	@Override
-	public List<String> findByAuthorOrderByCreatedDesc(String author) {
+	public List<String> findAllOrByAuthorOrderByCreatedDesc(String author) {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("author").regex(author));
+		if(StringUtils.isNoneBlank(author)){
+			query.addCriteria(Criteria.where("author").regex(author));
+		}
 		query.fields().include("topicName");
+		query.with(new Sort(new Order(Direction.DESC, "created")));
 		List<Topic> topics = mongoTemplate.find(query, Topic.class);
 		return ServiceUtil.getTopicNames(topics);
 	}

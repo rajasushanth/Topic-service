@@ -15,7 +15,7 @@ public interface TopicDAO {
 
 	List<String> findByAuthor(String author);
 
-	List<Topic> findAll();
+	List<String> findAll();
 	
 	List<Message> updateMessage(String topicName, Message message);
 	
