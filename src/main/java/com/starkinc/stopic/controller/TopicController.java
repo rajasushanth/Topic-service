@@ -7,13 +7,17 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +27,7 @@ import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.util.ServiceUtil;
 
 @RestController
-@RequestMapping(value = "/topics", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/topics", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class TopicController {
 
 	private TopicDAO topicDAO;
@@ -33,14 +37,14 @@ public class TopicController {
 	private ResponseEntity<Object> topicSearchValidation;
 	private ResponseEntity<Object> topicAlreadyExist;
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = POST)
 	public ResponseEntity<Object> save(@RequestBody Topic topic) {
 		if (null != topic && StringUtils.isNotBlank(topic.getTopicName())
 				&& StringUtils.isNotBlank(topic.getAuthor())) {
 			if (!topicDAO.isTopicExist(topic.getTopicName())) {
 				topic.setCreated(new Date());
 				topic.setUpdated(new Date());
-				return ServiceUtil.buildEntity(HttpStatus.CREATED, topicDAO.save(topic));
+				return ServiceUtil.buildEntity(CREATED, topicDAO.save(topic));
 			} else {
 				return topicAlreadyExist;
 			}
@@ -54,7 +58,7 @@ public class TopicController {
 	public ResponseEntity<Object> findByTopicName(@PathVariable("topicName") String topicName) {
 		Topic topic = topicDAO.findOne(topicName);
 		if (null != topic) {
-			return ServiceUtil.buildEntity(HttpStatus.FOUND, topic);
+			return ServiceUtil.buildEntity(FOUND, topic);
 		} else {
 			return noRecordFound;
 		}
@@ -65,7 +69,7 @@ public class TopicController {
 		if (StringUtils.isNotBlank(author)) {
 			List<String> topicList = topicDAO.findByAuthor(author);
 			if (null != topicList && topicList.size() > 0) {
-				return ServiceUtil.buildEntity(HttpStatus.FOUND, topicList);
+				return ServiceUtil.buildEntity(FOUND, topicList);
 			} else {
 				return noRecordFound;
 			}
@@ -78,25 +82,25 @@ public class TopicController {
 	public ResponseEntity<Object> findAll() {
 		List<String> topicList = topicDAO.findAll();
 		if (null != topicList && topicList.size() > 0) {
-			return ServiceUtil.buildEntity(HttpStatus.FOUND, topicList);
+			return ServiceUtil.buildEntity(FOUND, topicList);
 		} else {
 			return noRecordFound;
 		}
 	}
 
-	@RequestMapping(value = "/{topicName}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/{topicName}", method = PUT)
 	public ResponseEntity<Object> findAndUpdateMessage(@PathVariable("topicName") String topicName,
 			@RequestBody Message message) {
 		if (StringUtils.isNotBlank(topicName) && null != message) {
 			message.setPosted(new Date());
-			return ServiceUtil.buildEntity(HttpStatus.OK, topicDAO.updateMessage(topicName, message));
+			return ServiceUtil.buildEntity(OK, topicDAO.updateMessage(topicName, message));
 		}
 
 		return invalidRequest;
 
 	}
 
-	@RequestMapping(value = "/{topicName}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{topicName}", method = DELETE)
 	public ResponseEntity<Object> delete(@PathVariable("topicName") String topicName) {
 		topicDAO.delete(topicName);
 		return noContent;
