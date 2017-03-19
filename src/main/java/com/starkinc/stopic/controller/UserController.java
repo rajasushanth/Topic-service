@@ -34,7 +34,8 @@ public class UserController {
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user) {
-		if (null != user && StringUtils.isNotBlank(user.getName()) && StringUtils.isNotBlank(user.getPassword())) {
+		if (null != user && StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
+			user.setEnabled(true);
 			return ServiceUtil.buildEntity(CREATED, userDAO.saveOrUpdate(user));
 		} else {
 			return invalidRequest;
