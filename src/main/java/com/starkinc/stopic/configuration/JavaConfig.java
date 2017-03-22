@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.Error;
@@ -40,5 +42,10 @@ public class JavaConfig {
 	@Bean(name="userAlreadyExist")
 	public ResponseEntity<Object> responseEntityUAE(){
 		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.USER_ALREADY_EXIST));
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder(){
+		return new BCryptPasswordEncoder();
 	}
 }

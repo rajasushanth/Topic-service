@@ -11,6 +11,8 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,7 @@ public class UserController {
 	private ResponseEntity<Object> invalidRequest;
 	private ResponseEntity<Object> noContent;
 	private ResponseEntity<Object> userAlreadyExist;
+	private PasswordEncoder passwordEncoder;
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user) {
@@ -50,6 +53,9 @@ public class UserController {
 		User userFound = null;
 		if (null != user && StringUtils.isNotBlank(user.getUsername())) {
 			userFound = userRepository.findOne(user.getUsername());
+			if(passwordEncoder.matches(user.getPassword(), userFound.getPassword())){
+				
+			}
 		} else {
 			return invalidRequest;
 		}
@@ -90,5 +96,10 @@ public class UserController {
 	public void setUserAlreadyExist(ResponseEntity<Object> userAlreadyExist) {
 		this.userAlreadyExist = userAlreadyExist;
 	}
-
+	
+	@Autowired
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
+	}
+	
 }
