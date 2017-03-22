@@ -33,7 +33,12 @@ public class JavaConfig {
 	}
 	
 	@Bean(name="topicAlreadyExist")
-	public ResponseEntity<Object> responseEntityAE(){
-		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.ALREADY_EXIST));
+	public ResponseEntity<Object> responseEntityTAE(){
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.TOPIC_ALREADY_EXIST));
+	}
+	
+	@Bean(name="userAlreadyExist")
+	public ResponseEntity<Object> responseEntityUAE(){
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.USER_ALREADY_EXIST));
 	}
 }

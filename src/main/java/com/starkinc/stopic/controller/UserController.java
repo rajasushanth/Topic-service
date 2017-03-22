@@ -6,8 +6,6 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.util.List;
-
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
@@ -16,48 +14,47 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.starkinc.stopic.dao.UserDAO;
 import com.starkinc.stopic.entity.User;
+import com.starkinc.stopic.repository.UserRepository;
 import com.starkinc.stopic.util.ServiceUtil;
 
 @RestController
 @RequestMapping(value = "/users", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class UserController {
 
-	private UserDAO userDAO;
+	private UserRepository userRepository;
 	private ResponseEntity<Object> noRecordFound;
 	private ResponseEntity<Object> invalidRequest;
 	private ResponseEntity<Object> noContent;
+	private ResponseEntity<Object> userAlreadyExist;
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody User user) {
 		if (null != user && StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
-			user.setEnabled(true);
-			return ServiceUtil.buildEntity(CREATED, userDAO.saveOrUpdate(user));
+			if (!userRepository.exists(user.getUsername())) {
+				user.setEnabled(true);
+				return ServiceUtil.buildEntity(CREATED, userRepository.save(user));
+			} else {
+				return userAlreadyExist;
+			}
 		} else {
 			return invalidRequest;
 		}
 
 	}
 
-	@RequestMapping(value = "/{id}")
-	public ResponseEntity<Object> findUserById(@PathVariable("id") String id) {
-		User user = userDAO.findOne(id);
-		if (null != user) {
-			return ServiceUtil.buildEntity(FOUND, user);
+	@RequestMapping(value = "/login", method = POST)
+	public ResponseEntity<Object> findUserById(@RequestBody User user) {
+		User userFound = null;
+		if (null != user && StringUtils.isNotBlank(user.getUsername())) {
+			userFound = userRepository.findOne(user.getUsername());
 		} else {
-			return noRecordFound;
+			return invalidRequest;
 		}
-	}
-
-	@RequestMapping(value = "/search")
-	public ResponseEntity<Object> findUserByName(@RequestParam("name") String name) {
-		List<User> userList = userDAO.findByName(name);
-		if (null != userList && userList.size() > 0) {
-			return ServiceUtil.buildEntity(FOUND, userList);
+		if (null != userFound) {
+			return ServiceUtil.buildEntity(FOUND, userFound);
 		} else {
 			return noRecordFound;
 		}
@@ -65,13 +62,13 @@ public class UserController {
 
 	@RequestMapping(value = "/{id}", method = DELETE)
 	public ResponseEntity<Object> deleteUser(@PathVariable("id") String id) {
-		userDAO.delete(id);
+		userRepository.delete(id);
 		return noContent;
 	}
 
 	@Autowired
-	public UserController(UserDAO userDAO) {
-		this.userDAO = userDAO;
+	public void setUserRepository(UserRepository userRepository) {
+		this.userRepository = userRepository;
 	}
 
 	@Resource
@@ -87,6 +84,11 @@ public class UserController {
 	@Resource
 	public void setNoContent(ResponseEntity<Object> noContent) {
 		this.noContent = noContent;
+	}
+
+	@Resource
+	public void setUserAlreadyExist(ResponseEntity<Object> userAlreadyExist) {
+		this.userAlreadyExist = userAlreadyExist;
 	}
 
 }
