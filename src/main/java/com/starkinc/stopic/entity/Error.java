@@ -3,13 +3,13 @@ package com.starkinc.stopic.entity;
 import org.springframework.http.HttpStatus;
 
 public class Error {
-	private HttpStatus code;
+	private HttpStatus status;
 	private String message;
 	public HttpStatus getCode() {
-		return code;
+		return status;
 	}
 	public void setCode(HttpStatus code) {
-		this.code = code;
+		this.status = code;
 	}
 	public String getMessage() {
 		return message;
@@ -19,7 +19,7 @@ public class Error {
 	}
 	public Error(HttpStatus code, String message) {
 		super();
-		this.code = code;
+		this.status = code;
 		this.message = message;
 	}
 
