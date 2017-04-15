@@ -29,7 +29,7 @@ public class TokenAuthenticationService {
 		String JWT = Jwts.builder()
 				.setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(timeIntervalInDays)))
-				.signWith(SignatureAlgorithm.HS512, "1235").compact();
+				.signWith(SignatureAlgorithm.HS512, privateKey).compact();
 		res.addHeader(headerString, tokenPrefix + " " + JWT);
 	}
 
