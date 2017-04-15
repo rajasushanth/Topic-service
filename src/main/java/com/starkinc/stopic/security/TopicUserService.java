@@ -27,7 +27,7 @@ public class TopicUserService implements UserDetailsService {
 		if(null != topicUser){
 			List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 			authorities.add(new SimpleGrantedAuthority(topicUser.getRole()));
-			return new User(topicUser.getUsername(), topicUser.getPassword(), authorities);
+			return new User(topicUser.getUsername(), topicUser.getPassword(), topicUser.isEnabled(), true, true, true, authorities);
 		}
 		throw new UsernameNotFoundException("User "+ username + " not found");
 	}
