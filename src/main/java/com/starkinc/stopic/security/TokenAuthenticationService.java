@@ -14,21 +14,24 @@ import org.springframework.security.core.Authentication;
 
 import com.starkinc.stopic.constants.Constants;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Configuration
 public class TokenAuthenticationService {
 
-	private static long timeIntervalInDays;
+	private static long timeInterval;
+	private static String timeFactor;
 	private static String privateKey;
 	private static String headerString;
 	private static String tokenPrefix;
+	
 
 	public static void addAuthentication(HttpServletResponse res, String username) {
 		String JWT = Jwts.builder()
 				.setSubject(username)
-				.setExpiration(new Date(System.currentTimeMillis() + TimeUnit.DAYS.toMillis(timeIntervalInDays)))
+				.setExpiration(new Date(System.currentTimeMillis() + resolveTimeInterval()))
 				.signWith(SignatureAlgorithm.HS512, privateKey).compact();
 		res.addHeader(headerString, tokenPrefix + " " + JWT);
 	}
@@ -36,20 +39,39 @@ public class TokenAuthenticationService {
 	public static Authentication getAuthentication(HttpServletRequest req) {
 		String token = req.getHeader(headerString);
 		if (null != token) {
-			String user = Jwts.parser()
+			Claims claims = Jwts.parser()
 					.setSigningKey(privateKey)
 					.parseClaimsJws(token.replace(tokenPrefix, ""))
-					.getBody()
-					.getSubject();
+					.getBody();
+			String user = claims.getSubject();
 			return null != user ? new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList()) : null;
 		}
 		return null;
 
 	}
 	
-	@Value(Constants.TIME_INTERVAL_IN_DAYS)
-	public void setTimeIntervalInDays(long timeIntervalInDays) {
-		TokenAuthenticationService.timeIntervalInDays = timeIntervalInDays;
+	public static long resolveTimeInterval(){
+		long timeInMillis = 0;
+		switch (timeFactor) {
+		case "seconds":
+			timeInMillis = TimeUnit.SECONDS.toMillis(timeInterval);
+			break;
+		case "minutes":
+			timeInMillis = TimeUnit.MINUTES.toMillis(timeInterval);
+			break;
+		case "hours":
+			timeInMillis = TimeUnit.HOURS.toMillis(timeInterval);
+			break;
+		default:
+			timeInMillis = TimeUnit.DAYS.toMillis(timeInterval);
+			break;
+		}
+		return timeInMillis;
+	}
+	
+	@Value(Constants.TIME_INTERVAL)
+	public void setTimeInterval(long timeInterval) {
+		TokenAuthenticationService.timeInterval = timeInterval;
 	}
 	
 	@Value(Constants.PRIVATE_KEY)
@@ -66,6 +88,10 @@ public class TokenAuthenticationService {
 	public void setTokenPrefix(String tokenPrefix) {
 		TokenAuthenticationService.tokenPrefix = tokenPrefix;
 	}
-
+	
+	@Value(Constants.TIME_FACTOR)
+	public void setTimeFactor(String timeFactor) {
+		TokenAuthenticationService.timeFactor = timeFactor;
+	}
 	
 }
