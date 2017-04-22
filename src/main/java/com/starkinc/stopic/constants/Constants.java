@@ -12,13 +12,13 @@ public final class Constants {
 	public static final String USER_ALREADY_EXIST = "User already present";
 	public static final String TOKEN_EXPIRED = "Token has expired";
 	
-	public static final String OPEN_TAG = "${";
-	public static final String CLOSE_STAG = "}";
-	public static final String TIME_INTERVAL = OPEN_TAG + "timeInterval" + CLOSE_STAG;
-	public static final String PRIVATE_KEY = OPEN_TAG + "privateKey" + CLOSE_STAG;
-	public static final String HEADER_STRING = OPEN_TAG + "headerString" + CLOSE_STAG;
-	public static final String TOKEN_PREFIX = OPEN_TAG + "tokenPrefix" + CLOSE_STAG;
-	public static final String TIME_FACTOR = OPEN_TAG + "timeFactor" + CLOSE_STAG;
+	public static final String TIME_INTERVAL = "${time.interval}";
+	public static final String PRIVATE_KEY = "${private.key}"  ;
+	public static final String HEADER_STRING = "${header.string}"  ;
+	public static final String TOKEN_PREFIX = "${token.prefix}"  ;
+	public static final String TIME_FACTOR = "${time.factor}"  ;
+	public static final String SALT = "${salt}"  ;
+	public static final String SECRECT_KEY = "${secret.key}"  ;
 	
 	private Constants() {
 	}

@@ -17,6 +17,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starkinc.stopic.entity.TopicUser;
+import com.starkinc.stopic.util.EncryptorUtil;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -30,7 +31,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 			throws AuthenticationException, IOException, ServletException {
 		TopicUser creds = new ObjectMapper().readValue(req.getInputStream(), TopicUser.class);
 		return getAuthenticationManager().authenticate(
-				new UsernamePasswordAuthenticationToken(creds.getUsername(), creds.getPassword(), Collections.emptyList()));
+				new UsernamePasswordAuthenticationToken(creds.getUsername(), EncryptorUtil.getTextEncryptor().decrypt((creds.getPassword())), Collections.emptyList()));
 	}
 
 	@Override
@@ -39,6 +40,4 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 		TokenAuthenticationService.addAuthentication(response, authResult.getName());
 	}
 	
-	
-
 }

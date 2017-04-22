@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.util.Base64Utils;
 
 import com.starkinc.stopic.constants.Constants;
 
@@ -32,7 +33,8 @@ public class TokenAuthenticationService {
 		String JWT = Jwts.builder()
 				.setSubject(username)
 				.setExpiration(new Date(System.currentTimeMillis() + resolveTimeInterval()))
-				.signWith(SignatureAlgorithm.HS512, privateKey).compact();
+				.signWith(SignatureAlgorithm.HS512, privateKey)
+				.compact();
 		res.addHeader(headerString, tokenPrefix + " " + JWT);
 	}
 
@@ -48,6 +50,11 @@ public class TokenAuthenticationService {
 		}
 		return null;
 
+	}
+	
+	
+	private static String base64Encoder(String privateKey){
+		return Base64Utils.encodeToString(privateKey.getBytes());
 	}
 	
 	public static long resolveTimeInterval(){
@@ -76,7 +83,7 @@ public class TokenAuthenticationService {
 	
 	@Value(Constants.PRIVATE_KEY)
 	public void setPrivateKey(String privateKey) {
-		TokenAuthenticationService.privateKey = privateKey;
+		TokenAuthenticationService.privateKey = base64Encoder(privateKey);
 	}
 	
 	@Value(Constants.HEADER_STRING)
