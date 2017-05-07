@@ -21,7 +21,7 @@ public class GlobalMethodLogger {
 	public void excludedMethods(){}
 	
 	@Around("includedMethods() && excludedMethods()")
-	public Object logUser(ProceedingJoinPoint jp){
+	public Object logUser(ProceedingJoinPoint jp) throws Throwable{
 		final Logger LOG = LoggerFactory.getLogger(jp.getTarget().getClass());
 		Object o = null;
 		try{
@@ -29,7 +29,9 @@ public class GlobalMethodLogger {
 			o = jp.proceed();
 			LOG.info("Exits::"+jp.getSignature());
 		}catch (Throwable e) {
-			LOG.info("Exception::"+jp.getSignature());
+			LOG.info("@Exception::"+jp.getSignature());
+			LOG.info("@Cause::"+e.getMessage());
+			throw e;
 		}
 		return o;
 		

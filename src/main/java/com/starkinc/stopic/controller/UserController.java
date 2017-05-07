@@ -9,14 +9,19 @@ import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserRepository;
+import com.starkinc.stopic.security.TokenAuthenticationService;
+import com.starkinc.stopic.util.EncryptorUtil;
 import com.starkinc.stopic.util.ServiceUtil;
 
 @RestController
@@ -27,13 +32,17 @@ public class UserController {
 	private ResponseEntity<Object> invalidRequest;
 	private ResponseEntity<Object> noContent;
 	private ResponseEntity<Object> userAlreadyExist;
+	private PasswordEncoder passwordEncoder;
+	private String headerString;
+	private String tokenPrefix;
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody TopicUser user) {
 		if (null != user && StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
 			if (!userRepository.exists(user.getUsername())) {
-				user.setEnabled(true);
-				return ServiceUtil.buildEntity(CREATED, userRepository.save(user));
+				ResponseEntity<Object> entity = save(user);
+				addHeader(user.getUsername(), entity);
+				return entity;
 			} else {
 				return userAlreadyExist;
 			}
@@ -41,6 +50,21 @@ public class UserController {
 			return invalidRequest;
 		}
 
+	}
+
+	private void addHeader(String userName, ResponseEntity<Object> entity) {
+		String JWT = TokenAuthenticationService.computeToken(userName);
+		entity.getHeaders().add(headerString, tokenPrefix + " " + JWT);
+	}
+
+	private ResponseEntity<Object> save(TopicUser user) {
+		String password = EncryptorUtil.getTextEncryptor().decrypt(user.getPassword());
+		user.setPassword(passwordEncoder.encode(password));
+		user.setEnabled(true);
+		user.setRole(Constants.ROLE_USER);
+		userRepository.save(user);
+		ResponseEntity<Object> entity = ServiceUtil.buildEntity(CREATED, null);
+		return entity;
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)
@@ -52,6 +76,11 @@ public class UserController {
 	@Autowired
 	public void setUserRepository(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+	
+	@Autowired
+	public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@Resource
@@ -68,5 +97,17 @@ public class UserController {
 	public void setUserAlreadyExist(ResponseEntity<Object> userAlreadyExist) {
 		this.userAlreadyExist = userAlreadyExist;
 	}
+	
+	@Value(Constants.HEADER_STRING)
+	public void setHeaderString(String headerString) {
+		this.headerString = headerString;
+	}
+	
+	@Value(Constants.TOKEN_PREFIX)
+	public void setTokenPrefix(String tokenPrefix) {
+		this.tokenPrefix = tokenPrefix;
+	}
+	
+	
 
 }

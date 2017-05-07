@@ -19,6 +19,7 @@ public final class Constants {
 	public static final String TIME_FACTOR = "${time.factor}"  ;
 	public static final String SALT = "${salt}"  ;
 	public static final String SECRECT_KEY = "${secret.key}"  ;
+	public static final String ROLE_USER = "ROLE_USER";
 	
 	private Constants() {
 	}
