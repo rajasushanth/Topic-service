@@ -1,6 +1,5 @@
 package com.starkinc.stopic.controller;
 
-import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserRepository;
-import com.starkinc.stopic.security.TokenAuthenticationService;
-import com.starkinc.stopic.util.EncryptorUtil;
 import com.starkinc.stopic.util.ServiceUtil;
 
 @RestController
@@ -39,9 +36,11 @@ public class UserController {
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody TopicUser user) {
 		if (null != user && StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
-			if (!userRepository.exists(user.getUsername())) {
-				ResponseEntity<Object> entity = save(user);
-				addHeader(user.getUsername(), entity);
+			String username = user.getUsername();
+			if (!userRepository.exists(username)) {
+				ServiceUtil.intializeSave(user, passwordEncoder);
+				userRepository.save(user);
+				ResponseEntity<Object> entity = ServiceUtil.addHeader(username, headerString, tokenPrefix);
 				return entity;
 			} else {
 				return userAlreadyExist;
@@ -50,21 +49,6 @@ public class UserController {
 			return invalidRequest;
 		}
 
-	}
-
-	private void addHeader(String userName, ResponseEntity<Object> entity) {
-		String JWT = TokenAuthenticationService.computeToken(userName);
-		entity.getHeaders().add(headerString, tokenPrefix + " " + JWT);
-	}
-
-	private ResponseEntity<Object> save(TopicUser user) {
-		String password = EncryptorUtil.getTextEncryptor().decrypt(user.getPassword());
-		user.setPassword(passwordEncoder.encode(password));
-		user.setEnabled(true);
-		user.setRole(Constants.ROLE_USER);
-		userRepository.save(user);
-		ResponseEntity<Object> entity = ServiceUtil.buildEntity(CREATED, null);
-		return entity;
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)

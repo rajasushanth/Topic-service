@@ -19,14 +19,30 @@ public class JavaConfig {
 	
 	private TextEncryptor textEncryptor;
 	
+	@Value(Constants.NO_RECORD_FOUND)
+	private String no_record_found;
+	
+	@Value(Constants.TOPIC_SEARCH)
+	private String topic_search;
+	
+	@Value(Constants.INVALID_REQUEST)
+	private String invalid_request;
+	
+	@Value(Constants.TOPIC_ALREADY_EXIST)
+	private String topic_already_exist;
+	
+	@Value(Constants.USER_ALREADY_EXIST)
+	private String user_already_exist;
+
+	
 	@Bean(name="noRecordFound")
 	public ResponseEntity<Object> responseEntityNRF(){
-		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, new Error(HttpStatus.NOT_FOUND, Constants.NO_RECORD_FOUND));
+		return ServiceUtil.buildEntity(HttpStatus.NOT_FOUND, new Error(HttpStatus.NOT_FOUND, no_record_found));
 	}
 	
 	@Bean(name="invalidRequest")
 	public ResponseEntity<Object> responseEntityIR(){
-		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, Constants.INVALID_REQUEST));
+		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, invalid_request));
 	}
 	
 	@Bean(name="noContent")
@@ -36,17 +52,17 @@ public class JavaConfig {
 	
 	@Bean(name="topicSearchValidation")
 	public ResponseEntity<Object> responseEntityTS(){
-		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, Constants.TOPIC_SEARCH));
+		return ServiceUtil.buildEntity(HttpStatus.BAD_REQUEST, new Error(HttpStatus.BAD_REQUEST, topic_search));
 	}
 	
 	@Bean(name="topicAlreadyExist")
 	public ResponseEntity<Object> responseEntityTAE(){
-		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.TOPIC_ALREADY_EXIST));
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, topic_already_exist));
 	}
 	
 	@Bean(name="userAlreadyExist")
 	public ResponseEntity<Object> responseEntityUAE(){
-		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, Constants.USER_ALREADY_EXIST));
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, user_already_exist));
 	}
 	
 	@Bean

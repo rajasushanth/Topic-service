@@ -5,12 +5,12 @@ public final class Constants {
 	public static final String TOPIC_REF = "topicRef";
 
 	// Error messages
-	public static final String NO_RECORD_FOUND = "No record found";
-	public static final String TOPIC_SEARCH = "Either topic or Username is mandatory";
-	public static final String INVALID_REQUEST = "Request body is null or missing parameters";
-	public static final String TOPIC_ALREADY_EXIST = "Topic already present";
-	public static final String USER_ALREADY_EXIST = "User already present";
-	public static final String TOKEN_EXPIRED = "Token has expired";
+	public static final String NO_RECORD_FOUND = "${no.record.found}";
+	public static final String TOPIC_SEARCH = "${topic.search}";
+	public static final String INVALID_REQUEST = "${invlid.request}";
+	public static final String TOPIC_ALREADY_EXIST = "${topic.already.present}";
+	public static final String USER_ALREADY_EXIST = "${user.already.exist}";
+	public static final String TOKEN_EXPIRED = "${token.expired}";
 	
 	public static final String TIME_INTERVAL = "${time.interval}";
 	public static final String PRIVATE_KEY = "${private.key}"  ;
