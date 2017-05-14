@@ -1,5 +1,6 @@
 package com.starkinc.stopic.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,8 +43,9 @@ public class TopicController {
 		if (null != topic && StringUtils.isNotBlank(topic.getTopicName())
 				&& StringUtils.isNotBlank(topic.getAuthor())) {
 			if (!topicRepository.exists(topic.getTopicName())) {
-				topic.setCreated(new Date());
-				topic.setUpdated(new Date());
+				Date date = Calendar.getInstance().getTime();
+				topic.setCreated(date);
+				topic.setUpdated(date);
 				return ServiceUtil.buildEntity(CREATED, topicRepository.save(topic));
 			} else {
 				return topicAlreadyExist;
