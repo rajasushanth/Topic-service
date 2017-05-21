@@ -23,7 +23,7 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	private MongoTemplate mongoTemplate;
 
 	@Override
-	public List<Message> findAndUpdateMessage(String topicName, Message message) {
+	public Topic findAndUpdateMessage(String topicName, Message message) {
 		Query query = new Query();
 		if (StringUtils.isNotBlank(topicName)) {
 			query.addCriteria(Criteria.where("topicName").regex(topicName));
@@ -33,7 +33,7 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 		update.addToSet("messages", message);
 		Topic topic = mongoTemplate.findAndModify(query, update, FindAndModifyOptions.options().returnNew(true),
 				Topic.class);
-		return topic.getMessages();
+		return topic;
 	}
 
 	@Override

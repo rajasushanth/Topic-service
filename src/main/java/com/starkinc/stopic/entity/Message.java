@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class Message {
 
-	private String name;
+	private String commentator;
 	private String message;
 	private Date posted;
 
-	public String getName() {
-		return name;
+	public String getCommentator() {
+		return commentator;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCommentator(String commentator) {
+		this.commentator = commentator;
 	}
 
 	public String getMessage() {
@@ -35,8 +35,8 @@ public class Message {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Message [name=");
-		builder.append(name);
+		builder.append("Message [commentator=");
+		builder.append(commentator);
 		builder.append(", message=");
 		builder.append(message);
 		builder.append(", posted=");
@@ -44,5 +44,6 @@ public class Message {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 
 }

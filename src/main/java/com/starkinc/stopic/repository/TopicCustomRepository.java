@@ -3,8 +3,9 @@ package com.starkinc.stopic.repository;
 import java.util.List;
 
 import com.starkinc.stopic.entity.Message;
+import com.starkinc.stopic.entity.Topic;
 
 public interface TopicCustomRepository {
-	List<Message> findAndUpdateMessage(String topicName, Message message);
+	Topic findAndUpdateMessage(String topicName, Message message);
 	List<String> findAllOrByAuthorOrderByCreatedDesc(String author);
 }
