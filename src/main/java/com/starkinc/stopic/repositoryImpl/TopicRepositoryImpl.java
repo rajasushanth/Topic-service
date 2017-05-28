@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicCustomRepository;
@@ -37,13 +38,15 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	}
 
 	@Override
-	public List<String> findAllOrByAuthorOrderByCreatedDesc(String author) {
+	public List<String> findByAuthorOrderByCreatedDesc(String author, int skip) {
 		Query query = new Query();
 		if(StringUtils.isNoneBlank(author)){
 			query.addCriteria(Criteria.where("author").regex(author));
 		}
 		query.fields().include("topicName");
 		query.with(new Sort(new Order(Direction.DESC, "created")));
+		query.skip(skip);
+		query.limit(Constants.LIMIT);
 		List<Topic> topics = mongoTemplate.find(query, Topic.class);
 		return ServiceUtil.getTopicNames(topics);
 	}

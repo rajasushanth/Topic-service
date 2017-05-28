@@ -66,10 +66,11 @@ public class TopicController {
 		}
 	}
 
-	@RequestMapping("/search")
-	public ResponseEntity<Object> findByAuthor(@RequestParam(name = "author", required = false) String author) {
+	@RequestMapping("/byAuthor")
+	public ResponseEntity<Object> findByAuthor(@RequestParam(name = "author", required = false) String author,
+			@RequestParam(name = "skip", required = false) int skip) {
 		if (StringUtils.isNotBlank(author)) {
-			List<String> topicList = topicRepository.findAllOrByAuthorOrderByCreatedDesc(author);
+			List<String> topicList = topicRepository.findByAuthorOrderByCreatedDesc(author, skip);
 			if (null != topicList && topicList.size() > 0) {
 				return ServiceUtil.buildEntity(FOUND, topicList);
 			} else {
@@ -77,16 +78,6 @@ public class TopicController {
 			}
 		} else {
 			return topicSearchValidation;
-		}
-	}
-
-	@RequestMapping
-	public ResponseEntity<Object> findAll() {
-		List<String> topicList = topicRepository.findAllOrByAuthorOrderByCreatedDesc(null);
-		if (null != topicList && topicList.size() > 0) {
-			return ServiceUtil.buildEntity(FOUND, topicList);
-		} else {
-			return noRecordFound;
 		}
 	}
 

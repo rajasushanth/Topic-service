@@ -7,5 +7,5 @@ import com.starkinc.stopic.entity.Topic;
 
 public interface TopicCustomRepository {
 	Topic findAndUpdateMessage(String topicName, Message message);
-	List<String> findAllOrByAuthorOrderByCreatedDesc(String author);
+	List<String> findByAuthorOrderByCreatedDesc(String author, int skip);
 }
