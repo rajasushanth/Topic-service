@@ -20,7 +20,7 @@ public final class Constants {
 	public static final String SALT = "${salt}"  ;
 	public static final String SECRECT_KEY = "${secret.key}"  ;
 	public static final String ROLE_USER = "ROLE_USER";
-	public static final int LIMIT = 6;
+	public static final int LIMIT = 12;
 	
 	private Constants() {
 	}

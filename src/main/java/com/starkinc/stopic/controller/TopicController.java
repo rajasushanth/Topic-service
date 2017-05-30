@@ -68,9 +68,9 @@ public class TopicController {
 
 	@RequestMapping("/byAuthor")
 	public ResponseEntity<Object> findByAuthor(@RequestParam(name = "author", required = false) String author,
-			@RequestParam(name = "skip", required = false) int skip) {
+			@RequestParam(name = "skip", required = false) Integer skip) {
 		if (StringUtils.isNotBlank(author)) {
-			List<String> topicList = topicRepository.findByAuthorOrderByCreatedDesc(author, skip);
+			List<String> topicList = topicRepository.findByAuthorOrderByCreatedDesc(author, skip==null?0:skip);
 			if (null != topicList && topicList.size() > 0) {
 				return ServiceUtil.buildEntity(FOUND, topicList);
 			} else {
