@@ -14,10 +14,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
 import com.starkinc.stopic.constants.Constants;
+import com.starkinc.stopic.dto.TopicsDTO;
 import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicCustomRepository;
-import com.starkinc.stopic.util.ServiceUtil;
 
 public class TopicRepositoryImpl implements TopicCustomRepository {
 
@@ -38,17 +38,24 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	}
 
 	@Override
-	public List<String> findByAuthorOrderByCreatedDesc(String author, int skip) {
+	public TopicsDTO findByAuthorOrderByCreatedDesc(String author, long page) {
 		Query query = new Query();
+		Query countQuery = new Query();
 		if(StringUtils.isNoneBlank(author)){
 			query.addCriteria(Criteria.where("author").regex(author));
+			countQuery.addCriteria(Criteria.where("author").regex(author));
 		}
+		long total = mongoTemplate.count(countQuery, Topic.class);
+		int initPageToSkip = (int)(page-1) * Constants.LIMIT;
+		int finalPageToSkip = (initPageToSkip > total)? 0 : initPageToSkip;
+		page = (finalPageToSkip == 0) ? 1 : page;
 		query.fields().include("topicName");
 		query.with(new Sort(new Order(Direction.DESC, "created")));
-		query.skip(skip);
+		query.skip(finalPageToSkip);
 		query.limit(Constants.LIMIT);
 		List<Topic> topics = mongoTemplate.find(query, Topic.class);
-		return ServiceUtil.getTopicNames(topics);
+		TopicsDTO topicsDTO = new TopicsDTO(topics, total, page);
+		return topicsDTO;
 	}
 
 	@Autowired

@@ -1,27 +1,28 @@
 package com.starkinc.stopic.controller;
 
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.FOUND;
+import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.PUT;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.FOUND;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-import static org.springframework.web.bind.annotation.RequestMethod.PUT;
-import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.starkinc.stopic.dto.TopicsDTO;
 import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicRepository;
@@ -70,12 +71,8 @@ public class TopicController {
 	public ResponseEntity<Object> findByAuthor(@RequestParam(name = "author", required = false) String author,
 			@RequestParam(name = "skip", required = false) Integer skip) {
 		if (StringUtils.isNotBlank(author)) {
-			List<String> topicList = topicRepository.findByAuthorOrderByCreatedDesc(author, skip==null?0:skip);
-			if (null != topicList && topicList.size() > 0) {
-				return ServiceUtil.buildEntity(FOUND, topicList);
-			} else {
-				return noRecordFound;
-			}
+			TopicsDTO topicDTO = topicRepository.findByAuthorOrderByCreatedDesc(author, skip==null?1:skip);
+				return ServiceUtil.buildEntity(FOUND, topicDTO);
 		} else {
 			return topicSearchValidation;
 		}
