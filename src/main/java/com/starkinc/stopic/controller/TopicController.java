@@ -10,11 +10,14 @@ import static org.springframework.web.bind.annotation.RequestMethod.PUT;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.starkinc.stopic.constants.Constants;
+import com.starkinc.stopic.dto.SearchDTO;
 import com.starkinc.stopic.dto.TopicsDTO;
 import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
@@ -56,7 +61,7 @@ public class TopicController {
 		}
 
 	}
-
+	
 	@RequestMapping("/{topicName}")
 	public ResponseEntity<Object> findByTopicName(@PathVariable("topicName") String topicName) {
 		Topic topic = topicRepository.findOne(topicName);
@@ -76,6 +81,22 @@ public class TopicController {
 		} else {
 			return topicSearchValidation;
 		}
+	}
+	
+	@RequestMapping(value = "/search", method = POST)
+	public ResponseEntity<Object> searchTopic(@RequestParam(name = "skip", required = false) Integer skip,
+			@RequestBody SearchDTO searchDTO){
+		TopicsDTO topicsDTO = null;
+		if(null == searchDTO || (StringUtils.isBlank(searchDTO.getAuthor()) && StringUtils.isBlank(searchDTO.getTopicName()))){
+			Pageable pageable = new PageRequest(skip-1, Constants.LIMIT);
+			long total = topicRepository.count();
+			List<Topic> topics = topicRepository.findAll(pageable).getContent();
+			topicsDTO = new TopicsDTO(topics, total, 1);
+		}else{
+			topicsDTO = topicRepository.findByAuthorAndTopicName(searchDTO.getAuthor(), searchDTO.getTopicName(), skip==null?1:skip);
+		}
+		searchDTO.setTopicsDTO(topicsDTO);
+		return ServiceUtil.buildEntity(FOUND, searchDTO);
 	}
 
 	@RequestMapping(value = "/{topicName}", method = PUT)

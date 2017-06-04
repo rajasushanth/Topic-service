@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.CriteriaDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -41,9 +42,10 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	public TopicsDTO findByAuthorOrderByCreatedDesc(String author, long page) {
 		Query query = new Query();
 		Query countQuery = new Query();
-		if(StringUtils.isNoneBlank(author)){
-			query.addCriteria(Criteria.where("author").regex(author));
-			countQuery.addCriteria(Criteria.where("author").regex(author));
+		if(StringUtils.isNotBlank(author)){
+			CriteriaDefinition authorCriteria = Criteria.where("author").regex(author);
+			query.addCriteria(authorCriteria);
+			countQuery.addCriteria(authorCriteria);
 		}
 		long total = mongoTemplate.count(countQuery, Topic.class);
 		int initPageToSkip = (int)(page-1) * Constants.LIMIT;
@@ -57,9 +59,30 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 		TopicsDTO topicsDTO = new TopicsDTO(topics, total, page);
 		return topicsDTO;
 	}
+	
+	@Override
+	public TopicsDTO findByAuthorAndTopicName(String author, String topicName, long page) {
+		Query query = new Query();
+		Query countQuery = new Query();
+		long total = mongoTemplate.count(countQuery, Topic.class);
+		CriteriaDefinition authorCriteria = Criteria.where("author").regex(author, "i");
+		CriteriaDefinition topicNameCriteria = Criteria.where("_id").regex(topicName, "i");
+		query.addCriteria(authorCriteria);
+		query.addCriteria(topicNameCriteria);
+		int initPageToSkip = (int)(page-1) * Constants.LIMIT;
+		int finalPageToSkip = (initPageToSkip > total)? 0 : initPageToSkip;
+		page = (finalPageToSkip == 0) ? 1 : page;
+		query.fields().include("topicName");
+		query.skip(finalPageToSkip);
+		query.limit(Constants.LIMIT);
+		List<Topic> topics = mongoTemplate.find(query, Topic.class);
+		TopicsDTO topicsDTO = new TopicsDTO(topics, total, page);
+		return topicsDTO;
+	}
 
 	@Autowired
 	public void setMongoTemplate(MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
+
 }
