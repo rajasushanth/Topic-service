@@ -88,10 +88,12 @@ public class TopicController {
 			@RequestBody SearchDTO searchDTO){
 		TopicsDTO topicsDTO = null;
 		if(null == searchDTO || (StringUtils.isBlank(searchDTO.getAuthor()) && StringUtils.isBlank(searchDTO.getTopicName()))){
+			skip = skip==null?1:skip;
 			Pageable pageable = new PageRequest(skip-1, Constants.LIMIT);
 			long total = topicRepository.count();
 			List<Topic> topics = topicRepository.findAll(pageable).getContent();
-			topicsDTO = new TopicsDTO(topics, total, 1);
+			
+			topicsDTO = new TopicsDTO(topics, total, skip);
 		}else{
 			topicsDTO = topicRepository.findByAuthorAndTopicName(searchDTO.getAuthor(), searchDTO.getTopicName(), skip==null?1:skip);
 		}

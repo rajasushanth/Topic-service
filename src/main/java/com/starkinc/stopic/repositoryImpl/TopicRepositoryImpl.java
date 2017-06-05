@@ -64,9 +64,11 @@ public class TopicRepositoryImpl implements TopicCustomRepository {
 	public TopicsDTO findByAuthorAndTopicName(String author, String topicName, long page) {
 		Query query = new Query();
 		Query countQuery = new Query();
-		long total = mongoTemplate.count(countQuery, Topic.class);
 		CriteriaDefinition authorCriteria = Criteria.where("author").regex(author, "i");
 		CriteriaDefinition topicNameCriteria = Criteria.where("_id").regex(topicName, "i");
+		countQuery.addCriteria(authorCriteria);
+		countQuery.addCriteria(topicNameCriteria);
+		long total = mongoTemplate.count(countQuery, Topic.class);
 		query.addCriteria(authorCriteria);
 		query.addCriteria(topicNameCriteria);
 		int initPageToSkip = (int)(page-1) * Constants.LIMIT;
