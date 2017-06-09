@@ -1,8 +1,10 @@
 package com.starkinc.stopic.controller;
 
+import static org.springframework.http.HttpStatus.FOUND;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 import javax.annotation.Resource;
 
@@ -49,6 +51,25 @@ public class UserController {
 			return invalidRequest;
 		}
 
+	}
+	
+	@RequestMapping(value = "/{username}", method = GET)
+	public ResponseEntity<Object> getQuestionForUsername(@PathVariable("username") String username){
+		if(StringUtils.isNoneBlank(username)){
+			if(userRepository.exists(username)){
+				String temp = null;
+				try{
+					temp = userRepository.findQuestionByUsername(username);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return ServiceUtil.buildEntity(FOUND, temp);
+			}else{
+				return noContent;
+			}
+		}else{
+			return invalidRequest;
+		}
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)
