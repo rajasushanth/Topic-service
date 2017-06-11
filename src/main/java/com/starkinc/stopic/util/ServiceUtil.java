@@ -14,8 +14,7 @@ public final class ServiceUtil {
 	}
 	
 	public static void intializeSave(TopicUser user, PasswordEncoder passwordEncoder) {
-		String password = EncryptorUtil.getTextEncryptor().decrypt(user.getPassword());
-		user.setPassword(passwordEncoder.encode(password));
+		user.setPassword(decryptAndEncodePassword(user.getPassword(), passwordEncoder));
 		user.setEnabled(true);
 		user.setRole(Constants.ROLE_USER);
 	}
@@ -24,6 +23,19 @@ public final class ServiceUtil {
 		String JWT = TokenAuthenticationService.computeToken(username);
 		ResponseEntity<Object> entity = ResponseEntity.status(HttpStatus.CREATED).header(headerString, tokenPrefix + " " + JWT).build();
 		return entity;
+	}
+	
+	public static String decryptAndEncodePassword(String password, PasswordEncoder passwordEncoder){
+		String decyptedPassword = EncryptorUtil.getTextEncryptor().decrypt(password);
+		return passwordEncoder.encode(decyptedPassword);
+	}
+	
+	public static boolean isValidAnswer(String answer, String answerFromDB){
+		return getParsedAnswer(answer).equals(getParsedAnswer(answerFromDB));
+	}
+	
+	private static String getParsedAnswer(String answer){
+		return answer.replaceAll(" ", "").toLowerCase();
 	}
 
 	private ServiceUtil() {

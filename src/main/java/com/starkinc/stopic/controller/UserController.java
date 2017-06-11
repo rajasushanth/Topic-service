@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import static org.springframework.http.HttpStatus.OK;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.starkinc.stopic.constants.Constants;
+import com.starkinc.stopic.dto.ResetPasswordDTO;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserRepository;
 import com.starkinc.stopic.util.ServiceUtil;
@@ -31,13 +33,14 @@ public class UserController {
 	private ResponseEntity<Object> invalidRequest;
 	private ResponseEntity<Object> noContent;
 	private ResponseEntity<Object> userAlreadyExist;
+	private ResponseEntity<Object> invalidAnswer;
 	private PasswordEncoder passwordEncoder;
 	private String headerString;
 	private String tokenPrefix;
 
 	@RequestMapping(method = POST)
 	public ResponseEntity<Object> saveOrUpdateUser(@RequestBody TopicUser user) {
-		if (null != user && StringUtils.isNotBlank(user.getUsername()) && StringUtils.isNotBlank(user.getPassword())) {
+		if (null != user && StringUtils.isNoneBlank(user.getUsername(), user.getPassword())) {
 			String username = user.getUsername();
 			if (!userRepository.exists(username)) {
 				ServiceUtil.intializeSave(user, passwordEncoder);
@@ -55,21 +58,35 @@ public class UserController {
 	
 	@RequestMapping(value = "/{username}", method = GET)
 	public ResponseEntity<Object> getQuestionForUsername(@PathVariable("username") String username){
-		if(StringUtils.isNoneBlank(username)){
+		if(StringUtils.isNotBlank(username)){
 			if(userRepository.exists(username)){
-				String temp = null;
-				try{
-					temp = userRepository.findQuestionByUsername(username);
-				}catch (Exception e) {
-					e.printStackTrace();
-				}
-				return ServiceUtil.buildEntity(FOUND, temp);
+				return ServiceUtil.buildEntity(FOUND, userRepository.findQuestionByUsername(username));
 			}else{
 				return noContent;
 			}
 		}else{
 			return invalidRequest;
 		}
+	}
+	
+	@RequestMapping(value = "/{username}", method = POST)
+	public ResponseEntity<Object> updateAccount(@PathVariable("username") String username,
+			@RequestBody ResetPasswordDTO resetPasswordDTO){
+		if(null != resetPasswordDTO && StringUtils.isNoneBlank(username, resetPasswordDTO.getAnswer(), resetPasswordDTO.getPassword())){
+			if(userRepository.exists(username)){
+				if(userRepository.verifyAccount(username, resetPasswordDTO.getAnswer())){
+					String encodedPassword = ServiceUtil.decryptAndEncodePassword(resetPasswordDTO.getPassword(), passwordEncoder);
+					return ServiceUtil.buildEntity(OK, userRepository.updateAccount(username, encodedPassword));
+				}else{
+					return invalidAnswer;
+				}
+			}else{
+				return noContent;
+			}
+		}else{
+			return invalidRequest;
+		}
+		
 	}
 
 	@RequestMapping(value = "/{id}", method = DELETE)
@@ -103,6 +120,10 @@ public class UserController {
 		this.userAlreadyExist = userAlreadyExist;
 	}
 	
+	public void setInvalidAnswer(ResponseEntity<Object> invalidAnswer) {
+		this.invalidAnswer = invalidAnswer;
+	}
+
 	@Value(Constants.HEADER_STRING)
 	public void setHeaderString(String headerString) {
 		this.headerString = headerString;

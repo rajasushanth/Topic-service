@@ -33,7 +33,9 @@ public class JavaConfig {
 	
 	@Value(Constants.USER_ALREADY_EXIST)
 	private String user_already_exist;
-
+	
+	@Value(Constants.INVALID_ANSWER)
+	private String invalidAnswer;
 	
 	@Bean(name="noRecordFound")
 	public ResponseEntity<Object> responseEntityNRF(){
@@ -63,6 +65,11 @@ public class JavaConfig {
 	@Bean(name="userAlreadyExist")
 	public ResponseEntity<Object> responseEntityUAE(){
 		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, user_already_exist));
+	}
+	
+	@Bean(name="invalidAnswer")
+	public ResponseEntity<Object> responseEntityIA(){
+		return ServiceUtil.buildEntity(HttpStatus.CONFLICT, new Error(HttpStatus.BAD_REQUEST, invalidAnswer));
 	}
 	
 	@Bean

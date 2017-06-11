@@ -1,7 +1,11 @@
 package com.starkinc.stopic.repository;
 
+import com.starkinc.stopic.entity.TopicUser;
+
 public interface UserCustomRepository {
 	
-	String findQuestionByUsername(String username);
+	TopicUser findQuestionByUsername(String username);
+	boolean verifyAccount(String username, String answer);
+	boolean updateAccount(String username, String password);
 
 }
