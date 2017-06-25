@@ -28,7 +28,7 @@ public class JWTAuthenticationFilter extends GenericFilterBean {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
 			filterChain.doFilter(req, res);
 		} catch (ExpiredJwtException e) {
-			((HttpServletResponse)res).sendError(HttpServletResponse.SC_FORBIDDEN, Constants.TOKEN_EXPIRED);
+			((HttpServletResponse)res).sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, Constants.TOKEN_EXPIRED);
 		}
 
 	}

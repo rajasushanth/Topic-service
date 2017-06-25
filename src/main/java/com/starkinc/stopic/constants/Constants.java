@@ -10,7 +10,7 @@ public final class Constants {
 	public static final String INVALID_REQUEST = "${invalid.request}";
 	public static final String TOPIC_ALREADY_EXIST = "${topic.already.present}";
 	public static final String USER_ALREADY_EXIST = "${user.already.exist}";
-	public static final String TOKEN_EXPIRED = "${token.expired}";
+	public static final String TOKEN_EXPIRED = "Token has expired";
 	
 	public static final String TIME_INTERVAL = "${time.interval}";
 	public static final String PRIVATE_KEY = "${private.key}"  ;
@@ -22,7 +22,7 @@ public final class Constants {
 	public static final String ROLE_USER = "ROLE_USER";
 	public static final int LIMIT = 8;
 	public static final String INVALID_ANSWER = "${invalid.answer}";
-	
+	public static final String REFRESHED_TOKEN = "REFRESHED_TOKEN";
 	private Constants() {
 	}
 

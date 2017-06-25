@@ -1,4 +1,4 @@
-package com.starkinc.stopic.logger;
+package com.starkinc.stopic.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -10,14 +10,15 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
-public class GlobalMethodLogger {
+public class LoggingAspect {
 	
 	@Pointcut("execution(* com.starkinc.stopic.*.*.*(..))")
 	public void includedMethods(){}
 	
 	@Pointcut("! execution(* java.lang.reflect.Proxy+.*(..)) "
 		 + "&& ! execution(* com.starkinc.stopic.configuration.JavaConfig.*(..))" 
-		 + "&& ! execution(* com.starkinc.stopic.*.*.set*(..))")
+		 + "&& ! execution(* com.starkinc.stopic.*.*.set*(..))"
+		 + "&& ! execution(* com.starkinc.stopic.controller.TopicController.*(..))")
 	public void excludedMethods(){}
 	
 	@Around("includedMethods() && excludedMethods()")
@@ -36,5 +37,4 @@ public class GlobalMethodLogger {
 		return o;
 		
 	}
-
 }

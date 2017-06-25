@@ -7,11 +7,14 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.util.Base64Utils;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.starkinc.stopic.constants.Constants;
 
@@ -31,7 +34,7 @@ public class TokenAuthenticationService {
 
 	public static void addAuthentication(HttpServletResponse res, String username) {
 		String JWT = computeToken(username);
-		res.addHeader(headerString, tokenPrefix + " " + JWT);
+		res.addHeader(headerString, getTokenValue(JWT));
 	}
 
 	public static String computeToken(String username) {
@@ -50,6 +53,11 @@ public class TokenAuthenticationService {
 					.parseClaimsJws(token.replace(tokenPrefix, ""))
 					.getBody();
 			String user = claims.getSubject();
+			Date expiration = claims.getExpiration();
+			if(DateUtils.addMilliseconds(new Date(), ((int)resolveTimeInterval())/2).after(expiration)){
+				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+				request.setAttribute(Constants.REFRESHED_TOKEN, getTokenValue(computeToken(user)));
+			}
 			return null != user ? new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList()) : null;
 		}
 		return null;
@@ -59,6 +67,10 @@ public class TokenAuthenticationService {
 	
 	private static String base64Encoder(String privateKey){
 		return Base64Utils.encodeToString(privateKey.getBytes());
+	}
+	
+	private static String getTokenValue(String JWT){
+		return tokenPrefix + " " + JWT;
 	}
 	
 	public static long resolveTimeInterval(){
