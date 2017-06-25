@@ -1,16 +1,10 @@
 package com.starkinc.stopic.repository;
 
-import java.util.List;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.repository.query.Param;
-import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.starkinc.stopic.entity.User;
+import com.starkinc.stopic.entity.TopicUser;
 
-@RepositoryRestResource(collectionResourceRel = "users", path = "users")
-public interface UserRepository extends MongoRepository<User, String> {
+//@RepositoryRestResource(collectionResourceRel = "users", path = "users")
+public interface UserRepository extends MongoRepository<TopicUser, String>, UserCustomRepository {
 	
-	List<User> findByName(@Param("name") String name);
-
 }
