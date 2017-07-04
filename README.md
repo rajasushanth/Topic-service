@@ -4,7 +4,7 @@ Topic service is a REST API providing service to Topic web - a UI module by enca
 
 ## Getting Started
 
-Clone the repository to your local by executing the command in git bash. ```sh git clone <https://github.com/rajasushanth/topic-service.git>```
+Clone the repository to your local by executing the command in git bash. Command: git clone <https://github.com/rajasushanth/topic-service.git>
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ Clone the repository to your local by executing the command in git bash. ```sh g
 * [Topic Config](https://github.com/rajasushanth/topic-config.git) service running
 * MongoDB server running
 2. Navigate to the project root where pom.xml resides
-3. Built the WAR module by executing ```sh mvn clean install```
+3. Built the WAR module by executing ```mvn clean install```
 
 ## Running the tests
 
