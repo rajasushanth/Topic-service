@@ -30,7 +30,7 @@ Clone the repository to your local by executing the command in git bash.
 
 **Running in [Pivotal cloud foundry](https://login.run.pivotal.io/login)**
 1. Create an account in PCF
-2. Install the Cloud Foundry CLI from tools
+2. Install the [Cloud Foundry CLI](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html)
 3. Get the [manifest.yml](https://github.com/rajasushanth/topic-manifest/blob/master/topic-service/manifest.yml)
 4. Execute the command ```cf push```
 
