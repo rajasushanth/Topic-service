@@ -5,6 +5,7 @@ Topic service is a REST API providing service to Topic web - an UI module by enc
 ## Getting Started
 
 Clone the repository to your local by executing the command in git bash.
+
 ```git clone https://github.com/rajasushanth/topic-service.git```
 
 ## Prerequisites
