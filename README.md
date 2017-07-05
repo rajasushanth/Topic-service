@@ -53,8 +53,8 @@ Clone the repository to your local by executing the command in git bash.
 > 2. Easy kick start of application by providing auto configuration. 
 > 3. Embedded servers support
 
-### Logging - Logback
-Simple logging configuration
+> ### Logging - Logback
+> Simple logging configuration
 
 ## Installing
 
