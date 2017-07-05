@@ -37,4 +37,4 @@ Clone the repository to your local by executing the command in git bash.
 
 ## Author
 
-* **RajaSushanth** - [Github RajaSushanth](https://github.com/rajasushanth)
+* **RajaSushanth** - [GitHub RajaSushanth](https://github.com/rajasushanth)
