@@ -4,18 +4,18 @@ Topic service is a REST API providing service to Topic web - a UI module by enca
 
 ## Getting Started
 
-Clone the repository to your local by executing the command in git bash. Command: git clone <https://github.com/rajasushanth/topic-service.git>
+Clone the repository to your local by executing the command in git bash.
+```git clone https://github.com/rajasushanth/topic-service.git```
 
 ## Prerequisites
 
-* JDK 1.8 or above
-* Maven 3.0.5 or above
-* [MongoDB 3.0.0](https://www.mongodb.com/) or above (OR) if you don't wish to install mongodb use [mLab](https://mlab.com/) Database-as-a-service providing limited free storage
+* JDK v1.8 or above
+* Maven v3.0.5 or above
+* [MongoDB v3.0.0](https://www.mongodb.com/) or above (OR) if you don't wish to install mongodb use [mLab](https://mlab.com/) Database-as-a-service
 
 ## Installing
 
-1. Verify you prerequisites
-**Prerequisites**
+1. Verify following conditions are met
 * [Topic Config](https://github.com/rajasushanth/topic-config.git) service running
 * MongoDB server running
 2. Navigate to the project root where pom.xml resides
