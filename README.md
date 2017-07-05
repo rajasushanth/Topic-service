@@ -1,6 +1,6 @@
 # Topic Service
 
-Topic service is a REST API providing service to Topic web - a UI module by encapsulating business and persistence logic. It utilizes access tokens (JWT) to authenticate the consumers of this API without storing the state of them making it 100% RESTful architecture.
+Topic service is a REST API providing service to Topic web - an UI module by encapsulating business and persistence logic. It utilizes access tokens (JWT) to authenticate the consumers of this API without storing the state of them making it 100% RESTful architecture.
 
 ## Getting Started
 
@@ -21,56 +21,19 @@ Clone the repository to your local by executing the command in git bash.
 2. Navigate to the project root where pom.xml resides
 3. Built the WAR module by executing ```mvn clean install```
 
-## Running the tests
+## Deployment 
+**Running it in local**
 
-Explain how to run the automated tests for this system
+1. Navigate tho the path where WAR build resides
+2. Execute the command in the command line
+```java -jar topic-service-0.0.1-SNAPSHOT.jar```
 
-### Break down into end to end tests
+**Running in [Pivotal cloud foundry](https://login.run.pivotal.io/login)**
+1. Create an account in PCF
+2. Install the Cloud Foundry CLI from tools
+3. Get the [manifest.yml](https://github.com/rajasushanth/topic-manifest/blob/master/topic-service/manifest.yml)
+4. Execute the command ```cf push``
 
-Explain what these tests test and why
+## Author
 
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
-
-## Built With
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
-
-## Contributing
-
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
-
-## Versioning
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
-
-## Authors
-
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
-
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
+* **RajaSushanth** - [Github RajaSushanth](https://github.com/rajasushanth)
