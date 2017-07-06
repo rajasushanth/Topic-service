@@ -1,6 +1,6 @@
 # Topic Service
 
-Topic service is a REST API providing service to Topic web - an UI module by encapsulating business and persistence logic. It utilizes access tokens (JWT) to authenticate the consumers of this API without storing the state of them making it 100% RESTful architecture.
+Topic service is a REST API providing service to Topic web - an UI module by encapsulating business and persistence logic. It utilizes access tokens (JWT) to authenticate the consumers of this API without storing the state of them making it 100% RESTful.
 
 ## Getting Started
 
