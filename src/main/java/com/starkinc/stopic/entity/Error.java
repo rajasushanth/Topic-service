@@ -2,6 +2,10 @@ package com.starkinc.stopic.entity;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class Error {
 	
 	private long timestamp = System.currentTimeMillis();

@@ -20,6 +20,10 @@ import com.starkinc.stopic.entity.Message;
 import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicCustomRepository;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class TopicRepositoryImpl implements TopicCustomRepository {
 
 	private MongoTemplate mongoTemplate;

@@ -19,6 +19,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.util.EncryptorUtil;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	protected JWTLoginFilter(String defaultFilterProcessesUrl, AuthenticationManager authenticationManager) {

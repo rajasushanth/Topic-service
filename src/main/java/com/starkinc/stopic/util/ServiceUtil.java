@@ -8,6 +8,10 @@ import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.security.TokenAuthenticationService;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public final class ServiceUtil {
 	public static ResponseEntity<Object> buildEntity(HttpStatus status, Object entity) {
 		return new ResponseEntity<Object>(entity, status);

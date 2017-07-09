@@ -2,6 +2,10 @@ package com.starkinc.stopic.util;
 
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class EncryptorUtil {
 
 	private static TextEncryptor textEncryptor;

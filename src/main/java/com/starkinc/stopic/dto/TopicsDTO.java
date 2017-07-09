@@ -5,6 +5,10 @@ import java.util.List;
 import com.starkinc.stopic.constants.Constants;
 import com.starkinc.stopic.entity.Topic;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class TopicsDTO {
 	
 	private List<Topic> topics;

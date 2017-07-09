@@ -2,6 +2,10 @@ package com.starkinc.stopic.entity;
 
 import org.springframework.data.annotation.Id;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class TopicUser {
 	
 	@Id

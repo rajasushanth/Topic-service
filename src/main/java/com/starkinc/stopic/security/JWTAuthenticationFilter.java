@@ -17,6 +17,10 @@ import com.starkinc.stopic.constants.Constants;
 
 import io.jsonwebtoken.ExpiredJwtException;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class JWTAuthenticationFilter extends GenericFilterBean {
 
 	@Override

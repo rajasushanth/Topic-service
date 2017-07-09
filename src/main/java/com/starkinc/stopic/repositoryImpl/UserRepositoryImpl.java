@@ -11,6 +11,10 @@ import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserCustomRepository;
 import com.starkinc.stopic.util.ServiceUtil;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class UserRepositoryImpl implements UserCustomRepository {
 	
 	private MongoTemplate mongoTemplate;

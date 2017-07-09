@@ -10,6 +10,10 @@ import org.springframework.data.mongodb.core.convert.DefaultMongoTypeMapper;
 import org.springframework.data.mongodb.core.convert.MappingMongoConverter;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 @Configuration
 public class MongoConfig {
 

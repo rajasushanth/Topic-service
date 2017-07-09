@@ -2,6 +2,10 @@ package com.starkinc.stopic.entity;
 
 import java.util.Date;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class Message {
 
 	private String commentator;

@@ -14,6 +14,10 @@ import com.starkinc.stopic.entity.Error;
 import com.starkinc.stopic.util.EncryptorUtil;
 import com.starkinc.stopic.util.ServiceUtil;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 @Configuration
 public class JavaConfig {
 	

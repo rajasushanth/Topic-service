@@ -9,6 +9,10 @@ import com.starkinc.stopic.entity.Topic;
  * Used to expose a repository as rest service
  */
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public interface TopicRepository extends MongoRepository<Topic, String>, TopicCustomRepository {
 	
 }

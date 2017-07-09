@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 public class Topic {
 
 	@Id

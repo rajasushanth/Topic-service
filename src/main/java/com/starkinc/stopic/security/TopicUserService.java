@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserRepository;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 @Service
 public class TopicUserService implements UserDetailsService {
 	

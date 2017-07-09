@@ -25,6 +25,10 @@ import com.starkinc.stopic.entity.TopicUser;
 import com.starkinc.stopic.repository.UserRepository;
 import com.starkinc.stopic.util.ServiceUtil;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 @RestController
 @RequestMapping(value = "/users", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class UserController {

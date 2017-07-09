@@ -33,6 +33,10 @@ import com.starkinc.stopic.entity.Topic;
 import com.starkinc.stopic.repository.TopicRepository;
 import com.starkinc.stopic.util.ServiceUtil;
 
+/**
+ * @author RajaSushanth
+ *
+ */
 @RestController
 @RequestMapping(value = "/topics", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
 public class TopicController {
