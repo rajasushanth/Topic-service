@@ -1,0 +1,22 @@
+---
+applications:
+- name: topic-service
+  memory: 550M
+  instances: 1
+  host: topic-service
+  domain: cfapps.io
+  path: topic-service-0.0.1-SNAPSHOT.jar
+  env:
+    JAVA_OPTS : "-Xms128m -Xmx512m"
+    MONGO_HOST: MONGO_HOST_PLACEHOLDER
+    MONGO_PORT: MONGO_PORT_PLACEHOLDER
+    MONGO_DB: MONGO_DB_PLACEHOLDER
+    MONGO_USERNAME: MONGO_USERNAME_PLACEHOLDER
+    MONGO_PASSWORD: MONGO_PASSWORD_PLACEHOLDER
+    PRIVATE_KEY: PRIVATE_KEY_PLACEHOLDER
+    SALT_KEY: SALT_KEY_PLACEHOLDER
+    SECRET_KEY: SECRET_KEY_PLACEHOLDER
+    TOPIC_CONFIG: https://topic-config.cfapps.io/
+    CONFIG_USER: CONFIG_USER_PLACEHOLDER
+    CONFIG_PASSWORD: CONFIG_PASSWORD_PLACEHOLDER
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git

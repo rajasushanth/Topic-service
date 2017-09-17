@@ -1,0 +1,32 @@
+language: java
+sudo: false
+jdk:
+  - openjdk8
+branches:
+  only:
+  - master
+script: mvn clean install -Dmaven.test.skip=true
+before_deploy:
+  - sed -i 's/MONGO_HOST_PLACEHOLDER/'$MONGO_HOST_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/MONGO_PORT_PLACEHOLDER/'$MONGO_PORT_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/MONGO_DB_PLACEHOLDER/'$MONGO_DB_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/MONGO_USERNAME_PLACEHOLDER/'$MONGO_USERNAME_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/MONGO_PASSWORD_PLACEHOLDER/'$MONGO_PASSWORD_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/PRIVATE_KEY_PLACEHOLDER/'$PRIVATE_KEY_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/SALT_KEY_PLACEHOLDER/'$SALT_KEY_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/SECRET_KEY_PLACEHOLDER/'$SECRET_KEY_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/CONFIG_USER_PLACEHOLDER/'$CONFIG_USER_PLACEHOLDER'/g' manifest.yml
+  - sed -i 's/CONFIG_PASSWORD_PLACEHOLDER/'$CONFIG_PASSWORD_PLACEHOLDER'/g' manifest.yml
+deploy:
+   provider: cloudfoundry
+   api: https://api.run.pivotal.io
+   username: $PCF_USERNAME
+   password: $PCF_PASSWORD
+   organization: $PCF_ORG
+   space: $PCF_SPACE
+#notifications:
+#  email:
+#    recipients:
+#      - rajasushanth@outlook.com
+#    on_success: always
+#    on_failure: always
