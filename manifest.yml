@@ -5,7 +5,7 @@ applications:
   instances: 1
   host: topic-service
   domain: cfapps.io
-  path: topic-service-0.0.1-SNAPSHOT.jar
+  path: target/topic-service-0.0.1-SNAPSHOT.jar
   env:
     JAVA_OPTS : "-Xms128m -Xmx512m"
     MONGO_HOST: MONGO_HOST_PLACEHOLDER
