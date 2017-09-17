@@ -24,9 +24,12 @@ deploy:
    password: $PCF_PASSWORD
    organization: $PCF_ORG
    space: $PCF_SPACE
-#notifications:
-#  email:
+notifications:
+  email: false
+  slack:
+    on_success: always
+    on_failure: always
+    rooms:
+      secure: "aSf9f8rEQooRp3/C0qUUrs0pKnS2crwBB9L4X3GVmJ6IRstxUusl35rC25RsbIlkdC6AyZte4garZIDLQw7dUfmYdUjAqU749PYf4K0VJs0E1pFnQ51barAaVr+xqMeRGE9U2RQYvjZ9O0rqB4rzQ5o7HP2IPTom6apWE6kQVZoYiEvoSx1I9Y8fz/4CEPuF4fI+bvfLFYXjS8yRqOfqzBJcYg6FeiPGAytafOe52H+owWm1fB99ceCvgRp2Y6c3D7TvJZc+W0MQggtw7TbtjshPbamr31HkMitbGv9RnajDchC7j6YXzsPiuv25UEDA349V/vDTFdP9Ewan0JZIYsbc0lV/Y+qNEr1nlLBGasDx3mbrYGDGc/Pw89xloxo8R7SwizB55rVeooTI9FiaURjrMI2vqfaZKo5ktcXuJLT0f9m88J02InCs1zwCmWY/Fi5yPn1Z4YBgL5bdwDG4hMTfnVVfElIT/BUcaPmLI1vq9uFTF09Tc68vTlm1AlyMtoWEGDqSBOlppMsLuAoWbOz6WNyP1L8LaJTeCkkgsoXtErZHdJF8kZj4vKiEjplf5kahGbdBpelhTbgV7lojcyLdAzwN2DS5am6Dq1N/uX1AduQ/sfRL9JCXqrsMto3MSCZir8ItXohnLlResR2nokM7rZAcnwpDZlvCLHHW+ao="
 #    recipients:
 #      - rajasushanth@outlook.com
-#    on_success: always
-#    on_failure: always
